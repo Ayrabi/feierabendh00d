@@ -3,35 +3,63 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Einstellungen</title>
+  <title>Einstellungen – Passwort ändern</title>
   <style>
     body {
       background: #111;
       color: #d9903f;
       font-family: 'Comic Sans MS', cursive, sans-serif;
-      margin: 20px;
+      margin: 0;
+      padding: 0;
     }
+
+    nav {
+      background-color: #222;
+      padding: 12px;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      border-bottom: 2px solid #d9903f;
+    }
+
+    nav a {
+      color: #d9903f;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    .container {
+      padding: 20px;
+      max-width: 600px;
+      margin: auto;
+    }
+
     form {
       background: #222;
       padding: 20px;
       border-radius: 10px;
-      max-width: 500px;
-      margin: auto;
       display: flex;
       flex-direction: column;
       gap: 12px;
     }
+
     input {
-      padding: 8px;
+      padding: 10px;
       border-radius: 5px;
       border: none;
       font-size: 16px;
       color: #d9903f;
       background: #333;
     }
+
     label {
       font-weight: bold;
     }
+
     button {
       background: #d9903f;
       border: none;
@@ -41,39 +69,70 @@
       cursor: pointer;
       font-weight: bold;
     }
+
+    button:hover {
+      background: #f0a53d;
+    }
+
+    .message {
+      margin-top: 10px;
+      font-weight: bold;
+      color: #44dd44;
+    }
   </style>
 </head>
 <body>
 
-<form id="settingsForm">
+<!-- ✅ NAVIGATION -->
+<nav>
+  <a href="profile.html">Profil</a>
+  <a href="create-profile.html">Neues Profil</a>
+  <a href="delete-profile.html">Profil löschen</a>
+  <a href="settings.html">Einstellungen</a>
+</nav>
+
+<div class="container">
   <h2>Passwort ändern</h2>
 
-  <label for="currentPassword">Aktuelles Passwort</label>
-  <input type="password" id="currentPassword" required />
+  <form id="settingsForm">
+    <label for="currentPassword">Aktuelles Passwort</label>
+    <input type="password" id="currentPassword" required />
 
-  <label for="newPassword">Neues Passwort</label>
-  <input type="password" id="newPassword" required />
+    <label for="newPassword">Neues Passwort</label>
+    <input type="password" id="newPassword" required />
 
-  <label for="confirmPassword">Neues Passwort bestätigen</label>
-  <input type="password" id="confirmPassword" required />
+    <label for="confirmPassword">Neues Passwort bestätigen</label>
+    <input type="password" id="confirmPassword" required />
 
-  <button type="submit">Passwort ändern</button>
-</form>
+    <button type="submit">Passwort ändern</button>
+
+    <div class="message" id="messageBox"></div>
+  </form>
+</div>
 
 <script>
   document.getElementById('settingsForm').addEventListener('submit', (e) => {
     e.preventDefault();
+
     const current = document.getElementById('currentPassword').value;
     const newPass = document.getElementById('newPassword').value;
     const confirm = document.getElementById('confirmPassword').value;
+    const messageBox = document.getElementById('messageBox');
 
     if (newPass !== confirm) {
-      alert('Die neuen Passwörter stimmen nicht überein.');
+      messageBox.textContent = '❌ Die neuen Passwörter stimmen nicht überein.';
+      messageBox.style.color = '#dd4444';
       return;
     }
 
-    // Passwortwechsel-Logik hier (z. B. Vergleich mit Datenbank oder lokalem Speicher)
-    alert('Passwort erfolgreich geändert.');
+    // Beispiel: Lokale Speicherung oder Firebase-Aufruf hier
+    messageBox.textContent = '✅ Passwort erfolgreich geändert.';
+    messageBox.style.color = '#44dd44';
+
+    // Optional: Felder zurücksetzen
+    document.getElementById('currentPassword').value = "";
+    document.getElementById('newPassword').value = "";
+    document.getElementById('confirmPassword').value = "";
   });
 </script>
 
