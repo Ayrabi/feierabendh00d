@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Neues Profil erstellen</title>
+<style>
+  body {
+    background: #111;
+    color: #d9903f;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    margin: 20px;
+  }
+  form {
+    background: #222;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 500px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  input, textarea {
+    padding: 8px;
+    border-radius: 5px;
+    border: none;
+    font-size: 16px;
+    color: #d9903f;
+    background: #333;
+  }
+  label {
+    font-weight: bold;
+  }
+  button {
+    background: #d9903f;
+    border: none;
+    color: black;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  .password-toggle {
+    margin-top: -30px;
+    margin-left: 5px;
+    cursor: pointer;
+    color: #d9903f;
+  }
+</style>
+</head>
+<body>
+
+<form id="createProfileForm">
+  <h2>Neues Profil erstellen (Admin)</h2>
+
+  <label for="name">Name</label>
+  <input type="text" id="name" required />
+
+  <label for="mitgliedsnummer">Mitgliedsnummer</label>
+  <input type="text" id="mitgliedsnummer" required />
+
+  <label for="funktion">Funktion</label>
+  <input type="text" id="funktion" required />
+
+  <label for="status">Status</label>
+  <input type="text" id="status" required />
+
+  <label for="geburtsdatum">Geburtsdatum</label>
+  <input type="date" id="geburtsdatum" required />
+
+  <label for="rechte">Rechte</label>
+  <textarea id="rechte" rows="3" required></textarea>
+
+  <label for="password1">Passwort</label>
+  <input type="password" id="password1" required />
+  <span class="password-toggle" onclick="togglePassword('password1')">👁️</span>
+
+  <label for="password2">Passwort bestätigen</label>
+  <input type="password" id="password2" required />
+  <span class="password-toggle" onclick="togglePassword('password2')">👁️</span>
+
+  <button type="submit">Profil erstellen</button>
+</form>
+
+<script>
+  function togglePassword(id) {
+    const input = document.getElementById(id);
+    if (input.type === 'password') input.type = 'text';
+    else input.type = 'password';
+  }
+
+  document.getElementById('createProfileForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const p1 = document.getElementById('password1').value;
+    const p2 = document.getElementById('password2').value;
+    if (p1 !== p2) {
+      alert('
