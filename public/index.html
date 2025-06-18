@@ -1,12 +1,97 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Feierabendhood</title>
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Feierabendhood Login</title>
+<style>
+  body {
+    margin: 0; padding: 0;
+    background: #111;
+    color: #d9903f;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    height: 100vh;
+  }
+  #logo {
+    max-width: 200px;
+    margin-bottom: 20px;
+  }
+  #introVideo {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;
+    z-index: 1000;
+    background: black;
+  }
+  #loginForm {
+    background: #222;
+    padding: 20px;
+    border-radius: 10px;
+    min-width: 300px;
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 1100;
+  }
+  input {
+    padding: 8px;
+    border-radius: 5px;
+    border: none;
+    font-size: 16px;
+  }
+  button {
+    background: #d9903f;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+</style>
 </head>
 <body>
-  <div id="root"></div>
+
+<img id="logo" src="83DB8580-94B3-4CD2-9881-99C2E09ED7C2.png" alt="Logo" />
+
+<video id="introVideo" autoplay muted playsinline>
+  <source src="intro.mov" type="video/quicktime" />
+  Dein Browser unterstützt das Videoformat nicht.
+</video>
+
+<form id="loginForm">
+  <input type="text" id="username" placeholder="Benutzername" required />
+  <input type="password" id="password" placeholder="Passwort" required />
+  <button type="submit">Login</button>
+</form>
+
+<script>
+  const introVideo = document.getElementById('introVideo');
+  const loginForm = document.getElementById('loginForm');
+
+  // Wenn Video endet, blendet es aus und zeigt das Login-Formular
+  introVideo.addEventListener('ended', () => {
+    introVideo.style.transition = 'opacity 1s';
+    introVideo.style.opacity = '0';
+    setTimeout(() => {
+      introVideo.style.display = 'none';
+      loginForm.style.display = 'flex';
+    }, 1000);
+  });
+
+  // Einfache Login-Logik (später durch Firebase o.ä. ersetzen)
+  loginForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const user = e.target.username.value.trim();
+    const pass = e.target.password.value.trim();
+    // Beispiel: Admin-Login
+    if(user === 'admin' && pass === 'deinPasswort') {
+      alert('Erfolgreich eingeloggt!');
+      // Weiterleitung zu Profilseite, z.B. profile.html
+      window.location.href = 'profile.html?user=admin';
+    } else {
+      alert('Ungültiger Benutzername oder Passwort!');
+    }
+  });
+</script>
+
 </body>
 </html>
