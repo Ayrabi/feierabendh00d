@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Profil löschen</title>
+  <style>
+    body {
+      background: #111;
+      color: #d9903f;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      margin: 20px;
+    }
+    form {
+      background: #222;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 500px;
+      margin: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    input, select {
+      padding: 8px;
+      border-radius: 5px;
+      border: none;
+      font-size: 16px;
+      color: #d9903f;
+      background: #333;
+    }
+    label {
+      font-weight: bold;
+    }
+    button {
+      background: #d9903f;
+      border: none;
+      color: black;
+      padding: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<form id="deleteProfileForm">
+  <h2>Profil löschen (Admin)</h2>
+
+  <label for="profileId">Mitgliedsnummer oder Name</label>
+  <input type="text" id="profileId" required />
+
+  <label for="confirm">Löschen bestätigen</label>
+  <select id="confirm" required>
+    <option value="">Bitte wählen...</option>
+    <option value="yes">Ja, wirklich löschen</option>
+    <option value="no">Abbrechen</option>
+  </select>
+
+  <button type="submit">Profil löschen</button>
+</form>
+
+<script>
+  document.getElementById('deleteProfileForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const profileId = document.getElementById('profileId').value;
+    const confirm = document.getElementById('confirm').value;
+
+    if (confirm !== 'yes') {
+      alert('Löschung abgebrochen.');
+      return;
+    }
+
+    // Hier würdest du z.B. das Profil aus der Datenbank löschen
+    alert(`Profil ${profileId} wurde gelöscht.`);
+    // Optionale Weiterleitung oder Reset
+  });
+</script>
+
+</body>
+</html>
