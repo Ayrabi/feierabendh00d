@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Einstellungen</title>
+  <style>
+    body {
+      background: #111;
+      color: #d9903f;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      margin: 20px;
+    }
+    form {
+      background: #222;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 500px;
+      margin: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    input {
+      padding: 8px;
+      border-radius: 5px;
+      border: none;
+      font-size: 16px;
+      color: #d9903f;
+      background: #333;
+    }
+    label {
+      font-weight: bold;
+    }
+    button {
+      background: #d9903f;
+      border: none;
+      color: black;
+      padding: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<form id="settingsForm">
+  <h2>Passwort ändern</h2>
+
+  <label for="currentPassword">Aktuelles Passwort</label>
+  <input type="password" id="currentPassword" required />
+
+  <label for="newPassword">Neues Passwort</label>
+  <input type="password" id="newPassword" required />
+
+  <label for="confirmPassword">Neues Passwort bestätigen</label>
+  <input type="password" id="confirmPassword" required />
+
+  <button type="submit">Passwort ändern</button>
+</form>
+
+<script>
+  document.getElementById('settingsForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const current = document.getElementById('currentPassword').value;
+    const newPass = document.getElementById('newPassword').value;
+    const confirm = document.getElementById('confirmPassword').value;
+
+    if (newPass !== confirm) {
+      alert('Die neuen Passwörter stimmen nicht überein.');
+      return;
+    }
+
+    // Passwortwechsel-Logik hier (z. B. Vergleich mit Datenbank oder lokalem Speicher)
+    alert('Passwort erfolgreich geändert.');
+  });
+</script>
+
+</body>
+</html>
