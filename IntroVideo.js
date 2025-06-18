@@ -37,10 +37,11 @@ export default function IntroVideo({ onFinished }) {
     >
       <video
         ref={videoRef}
-        src="/intro.mp4"
+        src="/intro.mov"  // <- Hier der Platzhalter für dein Video
         style={{ maxWidth: "100%", maxHeight: "100%" }}
         playsInline
         muted
+        autoPlay
       />
     </div>
   );
