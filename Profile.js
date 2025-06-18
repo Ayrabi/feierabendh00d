@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { doc, updateDoc } from "firebase/firestore";
+import ProfileMenu from "./ProfileMenu";
 
-const DEFAULT_IMAGE = "/default-profile.png"; // ← Pfad zum Bild im public-Ordner
+const DEFAULT_IMAGE = "https://via.placeholder.com/100?text=Profilbild";
 
 export default function Profile({ user, userData, db, auth }) {
   const [statusText, setStatusText] = useState(userData.statusText || "");
@@ -13,9 +14,8 @@ export default function Profile({ user, userData, db, auth }) {
 
   const isAdmin = userData.role === "admin";
   const isOwnProfile = user.uid === userData.uid;
-  const canEditImage = isOwnProfile || isAdmin;
 
-  // Status-Text speichern
+  // Status speichern
   const saveStatusText = async () => {
     setSavingStatus(true);
     try {
@@ -29,9 +29,9 @@ export default function Profile({ user, userData, db, auth }) {
     setTimeout(() => setSaveMessage(""), 3000);
   };
 
-  // Bild-Upload (nur wenn eigener Nutzer oder Admin)
+  // Profilbild bearbeiten (nur eigenes oder Admin)
   const handleImageChange = (e) => {
-    if (!canEditImage) return;
+    if (!isOwnProfile && !isAdmin) return;
     const file = e.target.files[0];
     if (!file) return;
     setImageFile(file);
@@ -44,44 +44,42 @@ export default function Profile({ user, userData, db, auth }) {
 
   useEffect(() => {
     if (imageFile) {
-      // TODO: Upload in Firebase Storage und URL speichern
-      // Zum Beispiel: firebase/storage upload und danach updateDoc
-      // Hier nur lokal als Preview
+      // Bild hochladen in Firebase Storage (optional)
     }
   }, [imageFile]);
 
   return (
     <div
       style={{
-        backgroundColor: "#000",
+        backgroundColor: "#111",
         borderRadius: 10,
         padding: 20,
         color: "#d9903f",
-        fontFamily: "'Comic Sans MS', cursive, sans-serif",
         maxWidth: 700,
         margin: "auto",
-        boxShadow: "0 0 10px rgba(255,165,0,0.2)",
+        position: "relative",
       }}
     >
+      <ProfileMenu user={user} userData={userData} />
+
       <div style={{ display: "flex", gap: 20, alignItems: "center" }}>
-        <div style={{ flexShrink: 0, width: 150 }}>
+        <div style={{ flexShrink: 0, width: 100 }}>
           <label
             htmlFor="imageUpload"
-            style={{ cursor: canEditImage ? "pointer" : "default" }}
+            style={{ cursor: isOwnProfile || isAdmin ? "pointer" : "default" }}
           >
             <img
-              src={imageUrl || DEFAULT_IMAGE}
+              src={imageUrl}
               alt="Profilbild"
               style={{
-                width: 150,
-                height: 150,
+                width: 100,
+                height: 100,
                 borderRadius: "50%",
                 objectFit: "cover",
                 border: "2px solid #d9903f",
-                display: "block",
               }}
             />
-            {canEditImage && (
+            {(isOwnProfile || isAdmin) && (
               <input
                 id="imageUpload"
                 type="file"
@@ -95,51 +93,38 @@ export default function Profile({ user, userData, db, auth }) {
 
         <div style={{ flex: 1 }}>
           <h2>{userData.name}</h2>
-          <p><strong>Mitgliedsnummer:</strong> {userData.id || "000"}</p>
-          <p><strong>Funktion:</strong> {userData.roleName}</p>
-          <p><strong>Status:</strong> {userData.level}</p>
-          <p><strong>Geburtsdatum:</strong> {userData.birthDate}</p>
-          <p><strong>Rechte:</strong> {userData.permissions}</p>
+          <p><strong>Mitgliedsnummer:</strong> {userData.mitgliedsnummer}</p>
+          <p><strong>Funktion:</strong> {userData.funktion}</p>
+          <p><strong>Status:</strong> {userData.status}</p>
+          <p><strong>Geburtsdatum:</strong> {userData.geburtsdatum}</p>
+          <p><strong>Rechte:</strong> {userData.rechte}</p>
         </div>
       </div>
 
-      <div style={{ marginTop: 30 }}>
-        <h3>Status</h3>
+      <div style={{ marginTop: 20 }}>
         {editingStatus ? (
           <>
             <textarea
               value={statusText}
               onChange={(e) => setStatusText(e.target.value)}
               rows={3}
-              style={{
-                width: "100%",
-                padding: 10,
-                borderRadius: 5,
-                fontFamily: "inherit",
-              }}
+              style={{ width: "100%" }}
             />
             <button onClick={saveStatusText} disabled={savingStatus}>
               Speichern
             </button>
           </>
         ) : (
-          <p
-            style={{
-              backgroundColor: "#222",
-              padding: 10,
-              borderRadius: 5,
-              cursor: isOwnProfile || isAdmin ? "pointer" : "default",
-            }}
-            onClick={() => {
-              if (isOwnProfile || isAdmin) setEditingStatus(true);
-            }}
-          >
-            {statusText || "Kein Status hinterlegt. (Klicken zum Bearbeiten)"}
-          </p>
+          <>
+            <p><strong>Statusnachricht:</strong> {statusText}</p>
+            {(isOwnProfile || isAdmin) && (
+              <button onClick={() => setEditingStatus(true)}>
+                Status bearbeiten
+              </button>
+            )}
+          </>
         )}
-        {saveMessage && (
-          <p style={{ color: "lime", marginTop: 5 }}>{saveMessage}</p>
-        )}
+        {saveMessage && <p>{saveMessage}</p>}
       </div>
     </div>
   );
