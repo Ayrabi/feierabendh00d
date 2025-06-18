@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Alle Mitglieder</title>
+  <style>
+    body {
+      background: #111;
+      color: #d9903f;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav {
+      background-color: #222;
+      padding: 12px;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      border-bottom: 2px solid #d9903f;
+    }
+
+    nav a {
+      color: #d9903f;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    h2 {
+      text-align: center;
+      padding: 20px 0;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 20px;
+      padding: 20px;
+      max-width: 800px;
+      margin: auto;
+    }
+
+    .card {
+      background: #222;
+      border-radius: 10px;
+      padding: 10px;
+      text-align: center;
+      transition: transform 0.2s;
+    }
+
+    .card:hover {
+      transform: scale(1.05);
+      cursor: pointer;
+    }
+
+    .card img {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #d9903f;
+    }
+
+    .card-name {
+      margin-top: 8px;
+      font-size: 14px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav>
+  <a href="profile.html">Mein Profil</a>
+  <a href="mitglieder.html">Andere Mitglieder</a>
+  <a href="settings.html">Einstellungen</a>
+</nav>
+
+<h2>Alle Mitglieder</h2>
+
+<div class="grid" id="membersGrid">
+  <!-- Mitglieder werden dynamisch geladen -->
+</div>
+
+<script>
+  const members = [
+    {
+      name: "Rabia Aydemir",
+      img: "pfade/rabia.jpg", // Pfad zu echtem Bild oder Standardbild
+      link: "profile-rabia.html" // Link zur Profilseite
+    },
+    {
+      name: "Ali Beispiel",
+      img: "default.png",
+      link: "profile-ali.html"
+    },
+    // weitere Mitglieder ...
+  ];
+
+  const grid = document.getElementById("membersGrid");
+
+  members.forEach(member => {
+    const card = document.createElement("div");
+    card.className = "card";
+    card.innerHTML = `
+      <a href="${member.link}" style="color:inherit; text-decoration:none;">
+        <img src="${member.img}" alt="${member.name}" />
+        <div class="card-name">${member.name}</div>
+      </a>
+    `;
+    grid.appendChild(card);
+  });
+</script>
+
+</body>
+</html>
